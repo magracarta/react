@@ -7,7 +7,5 @@ export default function Profile({image, name, title , isNew}) {
             <h1>{name}</h1>
             <p>{title}</p>
         </div>
-
-    
 }
 
