@@ -1,0 +1,62 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>웹게임</title>
+</head>
+<body>
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<!--<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>-->
+<!--<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>-->
+<script type="text/babel">
+    // 데이터와 화면을 하나로 묶어둔다.
+    // 데이터 중심 -> 데이터를 바꾸면 화면이 바뀐다. (화면의 바뀌는 부분을 스테이트로 만든다.)
+    'use strict';
+    class LikeButton extends React.Component {
+        // constructor(props){
+        //     super(props);
+        //     this.state = {liked : false};
+        // }
+        state ={liked : false}
+        onClickButton = ()=>{
+            this.setState({liked: true});
+        }
+        render(){
+            if(this.state.liked){
+                return 'you liked this.';
+            }
+            // const array =[];
+            // pop,push,shift, unshift,splice --> 배열을 집적적으로 수정 (리액트에서 사용을 지양함)
+            // concat , slice --> 새로운 배열을 만들어냄 
+            return(
+                //삼항 연산자만 쓴다. if문 등등은 못씀
+                //객체를 함부로 바꾸지마라 (불변성)
+                    <button onClick={() => {
+                        //this.state.liked = true;
+                        // this.setState({liked: true});
+                        this.onClickButton();
+                    }}  >
+                        {this.state.liked ? 'Liked' : 'Like!'}
+                        
+                    </button>
+                    
+            );
+            //바벨 라이브러리가 jsx를 바꿔줌
+            // return React.createElement('button', {onClick: ()=> this.setState({liked: true})}, 'Like');
+        }
+    }
+</script>
+<script type="text/babel">
+    // ReactDOM.render(<LikeButton />, document.querySelector('#root')); //React 17버전 코드
+    ReactDOM.createRoot(document.querySelector('#root')).render(
+        <div>
+            <LikeButton />
+            <LikeButton />
+            <LikeButton />
+        </div>
+        ); //React 18버전 코드
+</script>
+</body>
+</html>
