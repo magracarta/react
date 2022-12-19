@@ -1,33 +1,20 @@
-import React from "react";
-import { useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import React,{ useState } from "react";
+import {v4 as uuidv4} from 'uuid';
+
 
 export default function AddTodo({onAdd}){
-    const [text, setText] =useState('');
-    
-    const inputChage = (e)=>{
-        setText(e.target.value);
-    }
-    const inputSubmit = (e)=>{
+    const [text, setText] = useState('');
+    const handleChange = (e)=>setText(e.target.value);
+    const handleSubmit = (e)=>{
         e.preventDefault();
-        if(text.trim() === '')return false;
-        
-        onAdd({id :uuidv4() ,text , statu:'active'});
+        if(text.trim().length ===0) return;
+        onAdd({id:uuidv4(), text, status:'active'});
         setText('');
-        
     }
     return(
-        <>
-            <form onSubmit={inputSubmit}>
-                <input 
-                    type = 'text'
-                    name = 'text'
-                    value={text}
-                    onChange={inputChage}
-                >
-                </input>
-                <button>Add</button>
-            </form>
-        </>
+        <form>
+            <input type='text' placeholder="Add Todo" value={text} onChange={handleChange}/>
+            <button onClick={handleSubmit}>Add</button>
+        </form>
     )
 }
