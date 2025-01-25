@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useEffect, useState } from 'react'
 
 export const FilterContext=createContext();
 
@@ -11,4 +11,8 @@ export function FilterProvider({children}) {
         {children}
     </FilterContext.Provider>
   )
+}
+
+export const updateDotos =(arr)=>{
+  localStorage.todos = arr;
 }

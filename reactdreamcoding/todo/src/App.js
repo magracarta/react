@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import './App.css';
 import TodoList from './components/TodoList/TodoList';
-import {FilterProvider , FilterContext} from './components/Header/FilterProvider';
+import {FilterProvider , FilterContext} from './components/Context/FilterProvider';
 import Header from './components/Header/Header';
+import { DarkModeProvider } from './components/Context/DarkModeContext';
 
 function App() {
   
 
   return (
-    <FilterProvider>
-      <Header />
-      <TodoList />
-    </FilterProvider>
+    <DarkModeProvider>
+      <FilterProvider>
+        <Header />
+        <TodoList />
+      </FilterProvider>
+    </DarkModeProvider>
   );
 }
 
