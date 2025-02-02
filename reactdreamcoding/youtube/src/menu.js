@@ -12,7 +12,7 @@ export const menu = [
         {index: true ,element:<Videos/>},
         {path: "videos" ,element:<Videos/>},
         {path: "videos/:keyword" ,element:<Videos/>},
-        {path: "videos/watch/:keyword" ,element:<VideoDetail/>},
+        {path: "videos/watch/:videoId" ,element:<VideoDetail/>},
     ]
   }
 ];
