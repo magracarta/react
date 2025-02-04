@@ -1,21 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React  from 'react';
 import { Link } from 'react-router';
 import { FiShoppingBag } from "react-icons/fi";
 import { BsFillPencilFill } from "react-icons/bs";
-import { getAdmin, login, logout, onUserStateChange } from '../api/firebase';
 import User from './User';
+import Button from './ui/Button';
+import { useAuthcontext } from './context/AuthContext';
 
 export default function Navbar() {
-    const [user, setUser] = useState();
-    const [admin, setAdmin] = useState();
-    useEffect(()=>{
-        onUserStateChange(setUser);
-    },[]);
-
-    useEffect(()=>{
-        getAdmin(user, setAdmin);
-    },[user])
-   
+    const {user, login, logout} = useAuthcontext();
     return (
         <header className='flex justify-between border-b  border-gray-300 p-4'>
             <Link to="/" className='flex items-center text-4xl text-brand'>
@@ -25,10 +17,10 @@ export default function Navbar() {
             <nav className='flex items-center gap-4 font-semibold'>
                 <Link className='hover:text-brand' to='/products'>Products</Link>
                 {user&&<Link className='hover:text-brand' to='/carts'>Carts</Link>}
-                {admin&& <Link className='hover:text-brand text-2xl' to='/products/new'><BsFillPencilFill/></Link>}
+                {user&&user.isAdmin&&<Link className='hover:text-brand text-2xl' to='/products/new'><BsFillPencilFill/></Link>}
                 {user&&<User user ={user}/>}
-                {!user && <button onClick={login} className='hover:text-brand'>Login</button>}
-                {user && <button onClick={logout} className='hover:text-brand'>Logout</button>}
+                {!user && <Button onClick={login} text={"Login"}/>}
+                {user && <Button onClick={logout} text={"Logout"}/>}
             </nav>
         </header>
     );

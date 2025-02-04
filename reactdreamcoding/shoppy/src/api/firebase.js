@@ -1,6 +1,7 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider ,signOut ,onAuthStateChanged  } from "firebase/auth";
+import { v4 as uuid } from 'uuid';
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, child, get } from "firebase/database";
+import { getDatabase, ref, child, get , set } from "firebase/database";
 
 
 const firebaseConfig = {
@@ -25,21 +26,45 @@ export function logout() {
 }
 
 export async function onUserStateChange(callback) {
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     //1. 사용자가 있는 경우에 (로그인한 경우)
-    //2. 사용자가 어드빈 권한을 가지고 있는 지 확인!
-    //3. {...user, isAdmin: true/false}
-    callback(user);
+    const updateUser =  user ? await adminUser(user): null;
+    callback(updateUser);
   });
 }
 
-const dbRef = ref(getDatabase());
-export async function getAdmin(user,callback) {
-  get(child(dbRef, `admins`)).then((snapshot) => {
-    if(!user) return callback(false);
-    let adminid = snapshot.val();
-    if( adminid.indexOf(user.uid) >= 0) callback(true);
-    else  callback(false);
-  }).catch(console.error);
+const database  = getDatabase(app);
+const dbRef = ref(database);
+
+async function adminUser(user){
+    //2. 사용자가 어드빈 권한을 가지고 있는지 확인!
+    //3. {...user, isAdmin: true/false}
+    return get(child(dbRef, `admins`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        const admins = snapshot.val();
+        const isAdmin = admins.includes(user.uid);
+        return {...user,isAdmin}
+      }
+      return user;
+    }).catch(console.error);
 }
 
+
+export async function addNewProduct(prodcut, image){
+  const id = uuid();
+  return set(ref(database, `products/${id}`), {
+    ...prodcut,
+    id,
+    price: parseInt(prodcut.price),
+    image,
+    options: prodcut.options.split(',')
+  });
+}
+
+export async function getProducts(){
+  return get(child(dbRef, `products`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      return Object.values(snapshot.val());
+    }
+  }).catch(console.error);
+}
