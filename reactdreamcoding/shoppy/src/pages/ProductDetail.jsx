@@ -11,7 +11,7 @@ export default function ProductDetail() {
     const handleSelect = (e)=>setSelected(e.target.value);
     const handleClick = ()=>{
         // 여기서 장바구니에 추가하면 됨!
-        const product = {id, image, title , options:selected, quantity:1};
+        const product = {id, image, title , price , option:selected, quantity:1};
         addOrUpdateToCart( uid, product );
     }
     return (
