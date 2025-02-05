@@ -9,7 +9,7 @@ export function AuthoContextProvider({children}){
         onUserStateChange(setUser);
     },[]);
 
-    return <AuthContext.Provider value={{user, login, logout}}>
+    return <AuthContext.Provider value={{user, uid: user&& user.uid, login, logout}}>
         {children}
     </AuthContext.Provider>
 }
