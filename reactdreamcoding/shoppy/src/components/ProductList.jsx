@@ -21,28 +21,3 @@ export default function ProductList() {
 }
 
 
-/*
-
-category
-: 
-"여성"
-description
-: 
-"스타일 원피스"
-id
-: 
-"4e962735-1f31-4eaf-ae09-a9104a8ca1d0"
-image
-: 
-"http://res.cloudinary.com/drbzggsks/image/upload/v1738656717/6_pvkjnh.webp"
-options
-: 
-(3) ['S', 'M', 'L']
-price
-: 
-50000
-title
-: 
-"스타일 원피스"
-
-*/
