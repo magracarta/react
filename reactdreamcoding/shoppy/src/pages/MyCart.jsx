@@ -1,22 +1,16 @@
-import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
 import { FaEquals } from "react-icons/fa";
-
-import { getCart } from '../api/firebase';
 import CartItem from '../components/CartItem';
-
 import { useAuthcontext } from '../components/context/AuthContext';
 import PriceCard from '../components/PriceCard';
 import Button from '../components/ui/Button';
+import useCart from '../hooks/useCart';
 
 const SHIPPING = 3000;
 export default function MyCart() {
     const {uid} = useAuthcontext();
-    const {isLoading,data:products} = useQuery({
-        queryKey:["carts"],
-        queryFn:()=>getCart(uid)
-    });
+    const {querygetCart:{isLoading , data:products}} = useCart();
     
     if(isLoading) return <p>Loading...</p>
 
@@ -26,7 +20,7 @@ export default function MyCart() {
     return (
         <section className='p-8 flex flex-col'>
             <p className='text-2xl text-center font-bold pb-4  border-b border-gray-300'>내 장바구니</p>
-            {!hasProducts && <p>장바구니에 상품이 없습니다. 열심히 쇼팽해 주세요!</p>}
+            {!hasProducts && <p>장바구니에 상품이 없습니다. 열심히 쇼핑해 주세요!</p>}
             {hasProducts && <>
                 <ul className='border-b border-gray-300 mb-8 p-4 px-8'>
                     {products.map(product=><CartItem key={product.id} product={product} uid={uid} />)}

@@ -52,8 +52,6 @@ async function adminUser(user){
 
 export async function addNewProduct(product, image){
   const id = uuid();
-  console.log(product);
-  console.log(product.options);
   return set(ref(database, `products/${id}`), {
     ...product,
     id,

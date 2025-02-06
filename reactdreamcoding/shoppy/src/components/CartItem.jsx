@@ -1,17 +1,20 @@
 import React from 'react';
 import { AiOutlineMinusSquare, AiOutlinePlusSquare } from 'react-icons/ai';
 import { RiDeleteBin5Fill } from "react-icons/ri";
-import { addOrUpdateToCart, removeFromCart } from '../api/firebase';
+import useCart from '../hooks/useCart';
 
 
 const ICONCLASS = "transition-all cursor-pointer hover:text-brand hover:scale-105 mx-1";
 export default function CartItem({product,product:{id, image, category ,title, price ,quantity ,option},uid}) {
-    const handleMinus = ()=>{
+    const {queryUpdateOrAddCart , queryRemoveCart} = useCart();
+
+    const handleMinus = async()=>{
         if(quantity < 2 )return;
-        addOrUpdateToCart(uid, {...product, quantity: quantity-1} );
+        queryUpdateOrAddCart.mutate({...product,  quantity: quantity-1})
     }
-    const handlePlus = ()=> addOrUpdateToCart(uid, {...product, quantity: quantity+1} );
-    const handleDelete=()=> removeFromCart(uid, id);
+    const handlePlus = async()=> queryUpdateOrAddCart.mutate({...product,  quantity: quantity+1});
+    const handleDelete = async()=> queryRemoveCart.mutate(id);
+
     return (
         <li className='flex justify-between my-2 items-center'>
             <img className='w-24 md:w-40 rounded-lg' src={image} alt={title}/>
