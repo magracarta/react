@@ -1,9 +1,6 @@
 import './App.css'
-import { useState } from 'react'
-import Bulb from './Bulb'
-import Counter from './components/Counter'
-
-
+import HookExam from './components/HookExam'
+import Register from './components/Register'
 
 
 
@@ -11,8 +8,7 @@ function App() {
 
   return (
     <>
-      <Bulb/>
-      <Counter/>
+    <HookExam/>
     </>
   )
 }
