@@ -1,8 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import "./List.css"
 import TodoItem from "./TodoItem";
+import { TodoStateContext, TodoDispatchContext } from "../App";
 
-const List = ({todos,onUpdate,onDelete})=>{
+const List = ()=>{
+    const todos = useContext(TodoStateContext);
+    const {onUpdate,onDelete} = useContext(TodoDispatchContext);
     const [search, setSearch] = useState("");
     const onChangeSearch = (e)=>{
         setSearch(e.target.value);
@@ -44,10 +47,7 @@ const List = ({todos,onUpdate,onDelete})=>{
                 {
                     filteredTodos.map((todo)=>{
                         return (
-                            <TodoItem key={todo.id} {...todo}
-                             onUpdate={onUpdate}
-                             onDelete={onDelete}
-                             />
+                            <TodoItem key={todo.id} {...todo}/>
                         );
                     })
                 }
